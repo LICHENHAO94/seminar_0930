@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Label System - Progress & Feature Demonstration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Inter:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body[lang="en"] { font-family: 'Inter', sans-serif; }
+    body[lang="ja"] { font-family: 'Noto Sans JP', 'Inter', sans-serif; }
+    
+    body { 
+      background-color: #f0f2f5;
+    }
+    .slide { 
+      display: none; 
+      height: 85vh; 
+      overflow-y: auto; 
+      padding: 2rem 4rem;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      border-radius: 0.5rem;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* 科技感背景纹理 */
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
+      pointer-events: none;
+      border-radius: 0.5rem;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(45deg, transparent 48%, rgba(59, 130, 246, 0.02) 49%, rgba(59, 130, 246, 0.02) 51%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(139, 92, 246, 0.02) 49%, rgba(139, 92, 246, 0.02) 51%, transparent 52%);
+      background-size: 60px 60px;
+      pointer-events: none;
+      border-radius: 0.5rem;
+    }
+
+    /* 确保内容在背景之上 */
+    .slide > * {
+      position: relative;
+      z-index: 1;
+    }
+    .slide.active { 
+      display: flex; 
+    }
+    .brand-text { color: #2563eb; }
+
+    /* 高级科技感卡片样式 */
+    .tech-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(59, 130, 246, 0.1);
+      box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .tech-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    /* AI感渐变边框 */
+    .ai-border {
+      position: relative;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      border: 1px solid transparent;
+      background-clip: padding-box;
+    }
+
+    .ai-border::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      margin: -1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6, #10b981);
+      background-size: 200% 200%;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* 科技感标题 */
+    .tech-title {
+      background: linear-gradient(135deg, #1e40af, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+    
+    .image-placeholder {
+      border: 2px dashed #d1d5db;
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 1rem;
+      min-height: 200px;
+      width: 100%;
+      height: 100%;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    
+    /* 语言切换 */
+    .lang-en, .lang-ja { display: none; }
+
+    .lang-switcher button {
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.375rem;
+        background-color: #9CA3AF;
+        color: white;
+        transition: background-color 0.2s;
+    }
+    .lang-switcher button.active,
+    .lang-switcher button:hover {
+        background-color: #4B5563;
+    }
+
+    .progress-bar-bg {
+        background-color: #e5e7eb;
+        border-radius: 9999px;
+        height: 1.25rem;
+        overflow: hidden;
+    }
+    .progress-bar-fill {
+        background-color: #2563eb;
+        height: 100%;
+        border-radius: 9999px;
+        transition: width 1s ease-in-out;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4" lang="en">
+
+  <div id="presentation" class="w-full max-w-6xl bg-white shadow-2xl rounded-lg overflow-hidden">
+    
+    <!-- Slide 1: 封面页 -->
+    <div class="slide active flex-row items-center relative" data-slide="1">
+      <!-- Left Column for Text (Wider) -->
+      <div class="w-3/5 flex flex-col justify-between h-full py-12 px-10 text-left bg-white relative z-10">
+        <div class="flex-1 flex flex-col justify-center">
+          <h1 class="text-7xl font-black text-gray-900 leading-tight mb-2">
+            <span class="lang-en">Smart Warehouse<br>Management</span>
+            <span class="lang-ja">スマート倉庫<br>管理</span>
+          </h1>
+          <h2 class="text-5xl mt-6 text-cyan-500 font-bold tracking-wide">Smart Label </h2>
+          <p class="text-3xl mt-12 text-gray-800 font-semibold leading-relaxed">
+            <span class="lang-en">Progress & Feature Demonstration</span>
+            <span class="lang-ja">進捗と機能のデモンストレーション</span>
+          </p>
+        </div>
+        <div class="flex flex-col space-y-3 text-base text-gray-500">
+            <p class="font-medium">
+                <span class="lang-en">Presenter: LI CHENHAO</span>
+                <span class="lang-ja">発表者: 厲 晨皓</span>
+            </p>
+            <p class="text-sm">
+                <span class="lang-en">September 30, 2025</span>
+                <span class="lang-ja">2025年9月30日</span>
+            </p>
+        </div>
+      </div>
+      
+      <!-- Enhanced Gradient Divider -->
+      <div class="w-2 h-full bg-gradient-to-b from-transparent via-cyan-300/40 to-transparent"></div>
+      
+      <!-- Right Column for Background Image (Narrower) -->
+      <div class="w-2/5 h-full relative overflow-hidden">
+        <img src="slide1.jpg" alt="Smart Label System" class="absolute inset-0 w-full h-full object-cover">
+        <!-- Stronger overlay for better integration -->
+        <div class="absolute inset-0 bg-gradient-to-l from-white/40 via-cyan-50/20 to-transparent"></div>
+        <!-- Enhanced tech pattern overlay -->
+        <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle at 20% 80%, #3b82f6 0%, transparent 50%), radial-gradient(circle at 80% 20%, #8b5cf6 0%, transparent 50%), radial-gradient(circle at 40% 40%, #06b6d4 0%, transparent 50%);"></div>
+        <!-- Additional tech lines overlay -->
+        <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(45deg, transparent 40%, #3b82f6 50%, transparent 60%), linear-gradient(-45deg, transparent 40%, #8b5cf6 50%, transparent 60%); background-size: 20px 20px;"></div>
+      </div>
+    </div>
+
+    <!-- Slide 2: 项目概述 -->
+    <div class="slide relative" data-slide="2">
+        <!-- Background Elements -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-100/30 to-purple-100/30 rounded-full -translate-y-20 translate-x-20"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-cyan-100/20 to-blue-100/20 rounded-full translate-y-16 -translate-x-16"></div>
+        
+        <div class="text-center mb-8 relative z-10">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+                <span class="lang-en">Project Overview</span>
+                <span class="lang-ja">プロジェクト概要</span>
+            </h1>
+            <p class="text-xl text-gray-600 font-medium">
+                <span class="lang-en">End-to-End Smart Warehouse System: AI + Backend + Frontend Integration</span>
+                <span class="lang-ja">エンドツーエンドスマート倉庫システム：AI + バックエンド + フロントエンド統合</span>
+            </p>
+        </div>
+        <div class="text-center text-gray-800 max-w-5xl mx-auto mb-12 relative z-10">
+            <p class="font-bold text-3xl mb-4"><span class="lang-en">Project Goal:</span><span class="lang-ja">プロジェクト目標：</span></p>
+            <p class="leading-relaxed text-xl mb-4">
+                <span class="lang-en">Enabling SMEs to achieve smart warehouse management with AI-powered, scalable solutions.</span>
+                <span class="lang-ja">AI技術を活用したスケーラブルなソリューションで中小企業のスマート倉庫管理を実現。</span>
+            </p>
+            <p class="text-lg text-gray-600 italic">
+                <span class="lang-en">This system bridges AI intelligence, server logic, and user interface into one scalable warehouse solution.</span>
+                <span class="lang-ja">このシステムはAI知能、サーバーロジック、ユーザーインターフェースを統合し、スケーラブルな倉庫ソリューションを実現します。</span>
+            </p>
+        </div>
+        <div class="flex-grow flex flex-col items-center justify-center space-y-8 relative z-10">
+            <!-- Data Flow Pipeline -->
+            <div class="w-full max-w-7xl">
+                <h3 class="text-2xl font-bold text-center text-gray-700 mb-8">
+                    <span class="lang-en">Data Flow Pipeline</span>
+                    <span class="lang-ja">データフローパイプライン</span>
+                </h3>
+                
+                <!-- Pipeline Container -->
+                <div class="bg-gradient-to-r from-blue-50 via-green-50 to-purple-50 p-8 rounded-2xl border border-gray-200 shadow-lg">
+                    <div class="flex items-center justify-between">
+                        <!-- Data Input -->
+                        <div class="text-center">
+                            <div class="bg-white p-4 rounded-xl shadow-md mb-3">
+                                <div class="text-3xl mb-2">📊</div>
+                                <p class="text-sm font-semibold text-gray-700">
+                                    <span class="lang-en">Data Input</span>
+                                    <span class="lang-ja">データ入力</span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Arrow 1 -->
+                        <div class="flex flex-col items-center">
+                            <div class="text-2xl text-gray-500">→</div>
+                            <div class="text-xs text-gray-500 mt-1">
+                                <span class="lang-en">Process</span>
+                                <span class="lang-ja">処理</span>
+                            </div>
+                        </div>
+                        
+                        <!-- AI Services -->
+                        <div class="bg-blue-100 p-6 rounded-xl border-2 border-blue-300 shadow-lg text-center flex-1 mx-4">
+                            <div class="text-4xl mb-3">🧠</div>
+                            <h3 class="text-xl font-bold text-blue-800 mb-2">
+                                <span class="lang-en">AI Services</span>
+                                <span class="lang-ja">AIサービス</span>
+                            </h3>
+                            <p class="text-sm text-blue-700">
+                                <span class="lang-en">Demand Forecasting<br>Anomaly Detection<br>Inventory Optimization</span>
+                                <span class="lang-ja">需要予測<br>異常検出<br>在庫最適化</span>
+                            </p>
+                        </div>
+                        
+                        <!-- Arrow 2 -->
+                        <div class="flex flex-col items-center">
+                            <div class="text-2xl text-gray-500">→</div>
+                            <div class="text-xs text-gray-500 mt-1">
+                                <span class="lang-en">API</span>
+                                <span class="lang-ja">API</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Server -->
+                        <div class="bg-green-100 p-6 rounded-xl border-2 border-green-300 shadow-lg text-center flex-1 mx-4">
+                            <div class="text-4xl mb-3">☁️</div>
+                            <h3 class="text-xl font-bold text-green-800 mb-2">
+                                <span class="lang-en">Node/Express</span>
+                                <span class="lang-ja">Node/Express</span>
+                            </h3>
+                            <p class="text-sm text-green-700">
+                                <span class="lang-en">API Gateway<br>Routing<br>Middleware</span>
+                                <span class="lang-ja">APIゲートウェイ<br>ルーティング<br>ミドルウェア</span>
+                            </p>
+                        </div>
+                        
+                        <!-- Arrow 3 -->
+                        <div class="flex flex-col items-center">
+                            <div class="text-2xl text-gray-500">→</div>
+                            <div class="text-xs text-gray-500 mt-1">
+                                <span class="lang-en">Render</span>
+                                <span class="lang-ja">レンダリング</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Frontend -->
+                        <div class="bg-purple-100 p-6 rounded-xl border-2 border-purple-300 shadow-lg text-center flex-1 mx-4">
+                            <div class="text-4xl mb-3">💻</div>
+                            <h3 class="text-xl font-bold text-purple-800 mb-2">
+                                <span class="lang-en">Vue Frontend</span>
+                                <span class="lang-ja">Vueフロントエンド</span>
+                            </h3>
+                            <p class="text-sm text-purple-700">
+                                <span class="lang-en">UI Components<br>Apple Design<br>Real-time Display</span>
+                                <span class="lang-ja">UIコンポーネント<br>Appleデザイン<br>リアルタイム表示</span>
+                            </p>
+                        </div>
+                        
+                        <!-- Arrow 4 -->
+                        <div class="flex flex-col items-center">
+                            <div class="text-2xl text-gray-500">→</div>
+                            <div class="text-xs text-gray-500 mt-1">
+                                <span class="lang-en">Output</span>
+                                <span class="lang-ja">出力</span>
+                            </div>
+                        </div>
+                        
+                        <!-- User Interface -->
+                        <div class="text-center">
+                            <div class="bg-white p-4 rounded-xl shadow-md mb-3">
+                                <div class="text-3xl mb-2">👤</div>
+                                <p class="text-sm font-semibold text-gray-700">
+                                    <span class="lang-en">User Interface</span>
+                                    <span class="lang-ja">ユーザーインターフェース</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 3: 为什么需要这个项目 -->
+    <div class="slide" data-slide="3">
+        <div class="text-4xl font-bold text-center mb-10">
+            <span class="lang-en">Why This Project <span class="brand-text">Matters</span></span>
+            <span class="lang-ja">なぜこのプロジェクトが<span class="brand-text">必要か</span></span>
+        </div>
+        <div class="flex-grow flex items-center justify-around space-x-8">
+            <!-- Left Column: Problem & Solution -->
+            <div class="w-1/2 space-y-6">
+                <!-- Current Problems -->
+                <div class="bg-red-50 p-5 rounded-xl border-2 border-red-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-red-700 mb-3 flex items-center">
+                        <span class="text-2xl mr-2">⚠️</span>
+                        <span class="lang-en">Current Challenges</span>
+                        <span class="lang-ja">現状の課題</span>
+                    </h3>
+                    <ul class="space-y-2 text-gray-700 text-base">
+                        <li class="flex items-start">
+                            <span class="text-red-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">Manual inventory → Inefficient</span><span class="lang-ja">手作業在庫管理 → 非効率</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-red-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">No data centralization → Overstock & stockouts</span><span class="lang-ja">データ分散 → 在庫過剰・欠品</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-red-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">Poor forecasting → Cost increase & lost sales</span><span class="lang-ja">予測困難 → コスト増・機会損失</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-red-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">Fixed label design → Lack of flexibility</span><span class="lang-ja">固定ラベルデザイン → 柔軟性の欠如</span></span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Solutions -->
+                <div class="bg-blue-50 p-5 rounded-xl border-2 border-blue-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-blue-700 mb-3 flex items-center">
+                        <span class="text-2xl mr-2">💡</span>
+                        <span class="lang-en">Our Solutions</span>
+                        <span class="lang-ja">解決策</span>
+                    </h3>
+                    <ul class="space-y-2 text-gray-700 text-base">
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">AI automation → Smart forecasting</span><span class="lang-ja">AI自動化 → スマート予測</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">Digital operations → Real-time visibility</span><span class="lang-ja">デジタル化 → リアルタイム可視化</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">Smart optimization → Cost reduction</span><span class="lang-ja">スマート最適化 → コスト削減</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">Custom label design → Enhanced flexibility</span><span class="lang-ja">カスタムラベルデザイン → 柔軟性向上</span></span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Project Goals -->
+                <div class="bg-green-50 p-5 rounded-xl border-2 border-green-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-green-700 mb-3 flex items-center">
+                        <span class="text-2xl mr-2">🎯</span>
+                        <span class="lang-en">Project Goals</span>
+                        <span class="lang-ja">プロジェクト目標</span>
+                    </h3>
+                    <ul class="space-y-2 text-gray-700 text-base">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">Low-cost hardware implementation for small businesses</span><span class="lang-ja">小企業向け低コストハードウェア実装</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">Practical warehouse management with existing equipment</span><span class="lang-ja">既存設備での実用的倉庫管理</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2 text-sm">•</span>
+                            <span><span class="lang-en">Cost-effective AI integration for SMEs</span><span class="lang-ja">中小企業向けコスト効率的AI統合</span></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Right Column: Visual Comparison -->
+            <div class="w-1/2 flex flex-col">
+                <!-- Image Title -->
+                <h4 class="text-2xl font-bold text-center text-gray-800 mb-6">
+                    <span class="lang-en">Traditional vs Smart Warehouse</span>
+                    <span class="lang-ja">従来の倉庫 vs スマート倉庫</span>
+                </h4>
+                
+                <!-- Comparison Image Container (70-80% height) -->
+                <div class="flex-1 rounded-xl border border-gray-200 flex items-center justify-center p-2 mb-4 overflow-hidden">
+                    <img src="slide3.jpg" alt="Traditional vs Smart Warehouse Comparison" class="w-full h-full object-cover rounded-lg shadow-lg">
+                </div>
+                
+                <!-- Bottom Summary -->
+                <div class="text-center">
+                    <p class="text-lg font-medium text-gray-700 italic">
+                        <span class="lang-en">From Paper to Digital: AI-Driven Transformation</span>
+                        <span class="lang-ja">紙ベースからデジタルへ：AIによる変革</span>
+                    </p>
+                    <p class="text-sm text-gray-600 mt-2">
+                        <span class="lang-en">Shifting from paper-based, manual processes to digital, AI-powered smart warehouses</span>
+                        <span class="lang-ja">紙ベースの手作業プロセスからデジタル・AI駆動のスマート倉庫への移行</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 4: 系统架构 -->
+    <div class="slide" data-slide="4">
+        <!-- 标题 -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+                <span class="lang-en">System Architecture</span>
+                <span class="lang-ja">システムアーキテクチャ</span>
+            </h1>
+            <p class="text-xl text-gray-600 font-medium">
+                <span class="lang-en">Modular, Scalable, and AI-driven Technical Stack</span>
+                <span class="lang-ja">モジュラー、スケーラブル、AI駆動の技術スタック</span>
+            </p>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="flex-grow flex items-start space-x-8">
+            <!-- 左侧：系统架构图 -->
+            <div class="w-1/2">
+                <div class="h-full rounded-xl border border-gray-200 overflow-hidden shadow-lg">
+                    <img src="slide4.png" alt="System Architecture Diagram" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <!-- 右侧：四层技术堆栈 -->
+            <div class="w-1/2 space-y-4">
+                <!-- Frontend -->
+                <div class="bg-blue-50 p-4 rounded-xl border-2 border-blue-200 shadow-sm">
+                    <h3 class="text-lg font-bold text-blue-800 mb-2 flex items-center">
+                        <span class="text-xl mr-2">💻</span>
+                        <span class="lang-en">Frontend (Vue.js)</span>
+                        <span class="lang-ja">フロントエンド (Vue.js)</span>
+                    </h3>
+                    <ul class="space-y-1 text-gray-700 text-sm">
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en">Real-time visualization & interaction</span><span class="lang-ja">リアルタイム可視化とインタラクション</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en">User-friendly intuitive interface</span><span class="lang-ja">ユーザーフレンドリーな直感的インターフェース</span></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Backend -->
+                <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200 shadow-sm">
+                    <h3 class="text-lg font-bold text-green-800 mb-2 flex items-center">
+                        <span class="text-xl mr-2">⚙️</span>
+                        <span class="lang-en">Backend (Node/Express)</span>
+                        <span class="lang-ja">バックエンド (Node/Express)</span>
+                    </h3>
+                    <ul class="space-y-1 text-gray-700 text-sm">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en">API gateway & routing management</span><span class="lang-ja">APIゲートウェイとルーティング管理</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en">Bridge connecting frontend & AI services</span><span class="lang-ja">フロントエンドとAIサービスを繋ぐ橋</span></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- AI Services -->
+                <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200 shadow-sm">
+                    <h3 class="text-lg font-bold text-purple-800 mb-2 flex items-center">
+                        <span class="text-xl mr-2">🧠</span>
+                        <span class="lang-en">AI Services (Python + FastAPI)</span>
+                        <span class="lang-ja">AIサービス (Python + FastAPI)</span>
+                    </h3>
+                    <ul class="space-y-1 text-gray-700 text-sm">
+                        <li class="flex items-start">
+                            <span class="text-purple-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en">LSTM → Demand forecasting</span><span class="lang-ja">LSTM → 需要予測</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-purple-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en">Isolation Forest → Anomaly detection</span><span class="lang-ja">Isolation Forest → 異常検出</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-purple-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en">Random Forest → Inventory optimization</span><span class="lang-ja">Random Forest → 在庫最適化</span></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Database -->
+                <div class="bg-orange-50 p-4 rounded-xl border-2 border-orange-200 shadow-sm">
+                    <h3 class="text-lg font-bold text-orange-800 mb-2 flex items-center">
+                        <span class="text-xl mr-2">🗄️</span>
+                        <span class="lang-en">Database (MySQL)</span>
+                        <span class="lang-ja">データベース (MySQL)</span>
+                    </h3>
+                    <ul class="space-y-1 text-gray-700 text-sm">
+                        <li class="flex items-start">
+                            <span class="text-orange-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en">Centralized storage & management</span><span class="lang-ja">集中ストレージと管理</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-orange-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en">Scalable schema design</span><span class="lang-ja">スケーラブルなスキーマ設計</span></span>
+                        </li>
+                </ul>
+            </div>
+
+                <!-- Key Takeaways -->
+                <div class="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-xl border border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+                        <span class="text-xl mr-2">✨</span>
+                        <span class="lang-en">Key Takeaways</span>
+                        <span class="lang-ja">重要なポイント</span>
+                    </h3>
+                    <ul class="space-y-2 text-gray-700 text-sm">
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en"><strong>Modular</strong> → Easy to extend & maintain</span><span class="lang-ja"><strong>モジュラー</strong> → 拡張とメンテナンスが容易</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-purple-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en"><strong>AI-driven</strong> → Enhanced prediction & optimization</span><span class="lang-ja"><strong>AI駆動</strong> → 予測と最適化能力の向上</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2 text-xs">•</span>
+                            <span><span class="lang-en"><strong>Full-stack loop</strong> → Complete data flow to user interaction</span><span class="lang-ja"><strong>フルスタックループ</strong> → データ入力からユーザーインタラクションまで</span></span>
+                        </li>
+                </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 5: 核心功能与应用场景 -->
+    <div class="slide" data-slide="5">
+        <!-- 标题 -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold tech-title mb-2">
+                <span class="lang-en">Advanced AI Features & Real-world Impact</span>
+                <span class="lang-ja">高度なAI機能と実世界への影響</span>
+            </h1>
+            <p class="text-xl text-gray-600 font-medium">
+                <span class="lang-en">Beyond traditional inventory management - intelligent adaptation to market changes</span>
+                <span class="lang-ja">従来の在庫管理を超えて - 市場変化へのインテリジェント適応</span>
+            </p>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="flex-grow flex items-start space-x-8">
+            <!-- 左侧：核心功能 -->
+            <div class="w-1/2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                    <span class="lang-en">Core Features</span>
+                    <span class="lang-ja">コア機能</span>
+                </h2>
+                <div class="space-y-3">
+                    <!-- AI Demand Forecasting -->
+                    <div class="bg-blue-50 p-4 rounded-xl border-2 border-blue-200 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <span class="text-2xl mr-3">📊</span>
+                            <h3 class="text-lg font-bold text-blue-800">
+                                <span class="lang-en">AI Demand Forecasting</span>
+                                <span class="lang-ja">AI需要予測</span>
+                            </h3>
+                        </div>
+                        <p class="text-gray-700 text-sm">
+                            <span class="lang-en">Predicts seasonal and promotional demand accurately</span>
+                            <span class="lang-ja">季節的・プロモーション需要を正確に予測</span>
+                        </p>
+                    </div>
+
+                    <!-- Anomaly Detection -->
+                    <div class="bg-red-50 p-4 rounded-xl border-2 border-red-200 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <span class="text-2xl mr-3">⚠️</span>
+                            <h3 class="text-lg font-bold text-red-800">
+                                <span class="lang-en">Anomaly Detection</span>
+                                <span class="lang-ja">異常検出</span>
+                            </h3>
+                        </div>
+                        <p class="text-gray-700 text-sm">
+                            <span class="lang-en">Identifies unusual inventory or sales fluctuations</span>
+                            <span class="lang-ja">異常な在庫・売上変動を識別</span>
+                        </p>
+                    </div>
+
+                    <!-- Inventory Optimization -->
+                    <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <span class="text-2xl mr-3">📦</span>
+                            <h3 class="text-lg font-bold text-green-800">
+                                <span class="lang-en">Inventory Optimization</span>
+                                <span class="lang-ja">在庫最適化</span>
+                            </h3>
+                        </div>
+                        <p class="text-gray-700 text-sm">
+                            <span class="lang-en">Balances cost and availability automatically</span>
+                            <span class="lang-ja">コストと可用性を自動的にバランス</span>
+                        </p>
+                    </div>
+
+                    <!-- Data Drift Handling - 核心差异化亮点 -->
+                    <div class="bg-purple-100 p-4 rounded-xl border-3 border-purple-400 shadow-lg ai-border">
+                        <div class="flex items-center mb-2">
+                            <span class="text-2xl mr-3">🔄</span>
+                            <h3 class="text-lg font-bold text-purple-900">
+                                <span class="lang-en">Data Drift Handling</span>
+                                <span class="lang-ja">データドリフト処理</span>
+                                <span class="bg-purple-200 text-purple-800 px-2 py-1 rounded-full text-xs ml-2">核心亮点</span>
+                            </h3>
+                        </div>
+                        <p class="text-gray-700 text-sm">
+                            <span class="lang-en">Ensures AI remains accurate as market data changes</span>
+                            <span class="lang-ja">市場データ変化時もAIの精度を維持</span>
+                        </p>
+                    </div>
+
+                    <!-- Real-time Dashboard -->
+                    <div class="bg-orange-50 p-4 rounded-xl border-2 border-orange-200 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <span class="text-2xl mr-3">📱</span>
+                            <h3 class="text-lg font-bold text-orange-800">
+                                <span class="lang-en">Real-time Dashboard</span>
+                                <span class="lang-ja">リアルタイムダッシュボード</span>
+                            </h3>
+                        </div>
+                        <p class="text-gray-700 text-sm">
+                            <span class="lang-en">Provides transparency with live updates</span>
+                            <span class="lang-ja">ライブ更新で透明性を提供</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：应用场景与映射 -->
+            <div class="w-1/2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                    <span class="lang-en">Use Cases</span>
+                    <span class="lang-ja">ユースケース</span>
+                </h2>
+                
+                <!-- 配图区域 -->
+                <div class="mb-6 rounded-xl border border-gray-200 overflow-hidden shadow-lg">
+                    <img src="slide5.png" alt="Use Cases Illustration" class="w-full h-48 object-cover">
+                </div>
+
+                <!-- 具体化应用场景 -->
+                <div class="space-y-3">
+                    <!-- Retail SMEs -->
+                    <div class="bg-orange-50 p-3 rounded-lg border border-orange-200">
+                        <h4 class="text-base font-bold text-orange-800 mb-2 flex items-center">
+                            <span class="text-lg mr-2">🏪</span>
+                            <span class="lang-en">Retail SMEs</span>
+                            <span class="lang-ja">小売中小企業</span>
+                        </h4>
+                        <p class="text-gray-700 text-xs mb-1">
+                            <span class="lang-en">Prevents stockouts during seasonal peaks</span>
+                            <span class="lang-ja">季節ピーク時の在庫切れを防止</span>
+                        </p>
+                        <p class="text-orange-600 text-xs italic">
+                            <span class="lang-en">Example: Avoid holiday rush shortages (Christmas, Spring Festival)</span>
+                            <span class="lang-ja">例：年末年始・春節の繁忙期欠品回避</span>
+                        </p>
+                    </div>
+
+                    <!-- Manufacturing SMEs -->
+                    <div class="bg-indigo-50 p-3 rounded-lg border border-indigo-200">
+                        <h4 class="text-base font-bold text-indigo-800 mb-2 flex items-center">
+                            <span class="text-lg mr-2">🏭</span>
+                            <span class="lang-en">Manufacturing SMEs</span>
+                            <span class="lang-ja">製造業中小企業</span>
+                        </h4>
+                        <p class="text-gray-700 text-xs mb-1">
+                            <span class="lang-en">Anticipates raw material shortages with anomaly alerts</span>
+                            <span class="lang-ja">異常アラートで原材料不足を予測</span>
+                        </p>
+                        <p class="text-indigo-600 text-xs italic">
+                            <span class="lang-en">Example: Early warning for steel/plastic supply disruptions</span>
+                            <span class="lang-ja">例：鋼材・プラスチック供給中断の早期警告</span>
+                        </p>
+                    </div>
+
+                    <!-- E-commerce -->
+                    <div class="bg-pink-50 p-3 rounded-lg border border-pink-200">
+                        <h4 class="text-base font-bold text-pink-800 mb-2 flex items-center">
+                            <span class="text-lg mr-2">🛒</span>
+                            <span class="lang-en">E-commerce Platforms</span>
+                            <span class="lang-ja">ECプラットフォーム</span>
+                        </h4>
+                        <p class="text-gray-700 text-xs mb-1">
+                            <span class="lang-en">Manages flash sale spikes (Black Friday, Singles' Day)</span>
+                            <span class="lang-ja">フラッシュセール急増を管理</span>
+                        </p>
+                        <p class="text-pink-600 text-xs italic">
+                            <span class="lang-en">Example: 11.11 Singles' Day surge prediction & inventory prep</span>
+                            <span class="lang-ja">例：双十一光棍節急増予測と在庫準備</span>
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 底部：技术差异化总结 -->
+        <div class="mt-6 text-center">
+            <div class="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-xl border border-gray-200">
+                <p class="text-base font-semibold text-gray-800">
+                    <span class="lang-en"><strong>Key Differentiator:</strong> Unlike static forecasting models, our framework integrates data drift detection and adaptive learning mechanisms, ensuring sustained predictive accuracy under dynamic and non-stationary market conditions.</span>
+                    <span class="lang-ja"><strong>主要な差別化要素:</strong> 静的予測モデルとは異なり、我々のフレームワークはデータドリフト検出と適応学習メカニズムを統合し、動的で非定常な市場条件下でも持続的な予測精度を確保します。</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: 数据漂移处理 -->
+    <div class="slide" data-slide="6">
+        <!-- 标题 -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold tech-title mb-2">
+                <span class="lang-en">Adapting AI Models to Dynamic Markets</span>
+                <span class="lang-ja">動的市場へのAIモデル適応</span>
+            </h1>
+            <p class="text-xl text-gray-600 font-medium">
+                <span class="lang-en">Tackling Data Drift for Reliable Predictions</span>
+                <span class="lang-ja">信頼性のある予測のためのデータドリフト対策</span>
+            </p>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="flex-grow flex items-start space-x-8">
+            <!-- 左侧：问题与挑战 -->
+            <div class="w-1/2 space-y-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">
+                    <span class="lang-en">The Challenge</span>
+                    <span class="lang-ja">課題</span>
+                </h2>
+                
+                <!-- 问题描述 -->
+                <div class="bg-red-50 p-6 rounded-xl border-2 border-red-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-red-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-3">⚠️</span>
+                        <span class="lang-en">The Challenge</span>
+                        <span class="lang-ja">課題</span>
+                    </h3>
+                    <div class="space-y-3 text-gray-700">
+                        <p class="text-base"><span class="lang-en"><strong>Seasonal spikes:</strong> 11.11, Black Friday → Severe demand underestimation</span><span class="lang-ja"><strong>季節急増:</strong> 双十一、ブラックフライデー → 需要の深刻な過小評価</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>Market shocks:</strong> Supply chain disruptions → Obsolete training data</span><span class="lang-ja"><strong>市場ショック:</strong> サプライチェーン混乱 → 学習データの陳腐化</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>SME burden:</strong> Manual retraining → High operational costs</span><span class="lang-ja"><strong>中小企業負担:</strong> 手動再学習 → 高い運営コスト</span></p>
+                    </div>
+                </div>
+
+                <!-- 具体例子 -->
+                <div class="bg-orange-50 p-5 rounded-xl border-2 border-orange-200 shadow-sm">
+                    <h3 class="text-lg font-bold text-orange-800 mb-3 flex items-center">
+                        <span class="text-2xl mr-2">📊</span>
+                        <span class="lang-en">Real-world Examples</span>
+                        <span class="lang-ja">実例</span>
+                    </h3>
+                    <div class="text-gray-700 text-sm space-y-2">
+                        <p><span class="lang-en"><strong>COVID-19 Impact:</strong> Pre-pandemic models failed to predict consumer behavior shifts, leading to widespread supply-demand mismatches.</span></p>
+                        <p><span class="lang-en"><strong>SME Case:</strong> Malaysian beverage distributor during Spring Festival → Model drift caused 150% underestimation, resulting in severe stockouts across distribution network.</span></p>
+                        <p><span class="lang-ja"><strong>コロナ禍の影響:</strong> パンデミック前モデルは消費者行動変化を予測できず、需給不均衡が広範囲に発生。</span></p>
+                        <p><span class="lang-ja"><strong>中小企業事例:</strong> 春節時のマレーシア飲料卸売業者 → モデルドリフトにより150%過小評価、流通網全体で深刻な在庫切れ。</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：解决方案 -->
+            <div class="w-1/2 space-y-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">
+                    <span class="lang-en">Our Solution</span>
+                    <span class="lang-ja">解決策</span>
+                </h2>
+
+                <!-- 解决方案 -->
+                <div class="bg-blue-50 p-6 rounded-xl border-2 border-blue-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-blue-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-3">🔧</span>
+                        <span class="lang-en">Our Solution</span>
+                        <span class="lang-ja">解決策</span>
+                    </h3>
+                    <div class="space-y-3 text-gray-700">
+                        <p class="text-base"><span class="lang-en"><strong>Smart monitoring:</strong> KS-test detects distribution changes (robust for SME data sizes)</span><span class="lang-ja"><strong>スマート監視:</strong> KS検定で分布変化を検出（中小企業データサイズに堅牢）</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>Auto-trigger:</strong> Retraining if prediction error >15% for 3 consecutive cycles</span><span class="lang-ja"><strong>自動トリガー:</strong> 3サイクル連続で予測誤差>15%時に再学習</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>Lightweight updates:</strong> Fine-tune only LSTM final layers + rolling deployment</span><span class="lang-ja"><strong>軽量更新:</strong> LSTM最終層のみ微調整 + ローリング展開</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>System benefit:</strong> Sustains accuracy with minimal SME operational burden</span><span class="lang-ja"><strong>システム利点:</strong> 最小限の運営負担で精度を維持</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部：技术实现流程 -->
+        <div class="mt-8">
+            <h3 class="text-xl font-bold text-center text-gray-800 mb-6">
+                <span class="lang-en">Adaptive Learning Pipeline</span>
+                <span class="lang-ja">適応学習パイプライン</span>
+            </h3>
+            <div class="flex justify-center space-x-6">
+                <div class="text-center">
+                    <div class="bg-purple-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-purple-300">
+                        <span class="text-3xl">📈</span>
+                    </div>
+                    <h4 class="text-base font-bold text-gray-700 mb-2">
+                        <span class="lang-en">Monitor</span>
+                        <span class="lang-ja">監視</span>
+                    </h4>
+                    <p class="text-sm text-gray-600">
+                        <span class="lang-en">Continuous monitoring</span>
+                        <span class="lang-ja">継続的監視</span>
+                    </p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-blue-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-blue-300">
+                        <span class="text-3xl">🔍</span>
+                    </div>
+                    <h4 class="text-base font-bold text-gray-700 mb-2">
+                        <span class="lang-en">Detect</span>
+                        <span class="lang-ja">検出</span>
+                    </h4>
+                    <p class="text-sm text-gray-600">
+                        <span class="lang-en">Early drift detection</span>
+                        <span class="lang-ja">早期ドリフト検出</span>
+                    </p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-green-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-green-300">
+                        <span class="text-3xl">🔄</span>
+                    </div>
+                    <h4 class="text-base font-bold text-gray-700 mb-2">
+                        <span class="lang-en">Adapt</span>
+                        <span class="lang-ja">適応</span>
+                    </h4>
+                    <p class="text-sm text-gray-600">
+                        <span class="lang-en">Efficient retraining</span>
+                        <span class="lang-ja">効率的再学習</span>
+                    </p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-orange-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-orange-300">
+                        <span class="text-3xl">✅</span>
+                    </div>
+                    <h4 class="text-base font-bold text-gray-700 mb-2">
+                        <span class="lang-en">Deploy</span>
+                        <span class="lang-ja">展開</span>
+                    </h4>
+                    <p class="text-sm text-gray-600">
+                        <span class="lang-en">Seamless deployment</span>
+                        <span class="lang-ja">シームレス展開</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 7: Implementation Status & Technical Milestones -->
+    <div class="slide" data-slide="7">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold tech-title mb-2">
+                <span class="lang-en">Implementation Status & Technical Milestones</span>
+                <span class="lang-ja">実装状況と技術マイルストーン</span>
+            </h1>
+            <p class="text-xl text-gray-600 font-medium">
+                <span class="lang-en">Current build status and near-term milestones (no performance claims yet)</span>
+                <span class="lang-ja">現在のビルド状況と近期的マイルストーン（性能主張は含まず）</span>
+            </p>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="flex-grow flex items-start space-x-8">
+            <!-- 左侧：Implementation Status -->
+            <div class="w-1/2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                    <span class="lang-en">Implementation Status</span>
+                    <span class="lang-ja">実装状況</span>
+                </h2>
+                <div class="space-y-4">
+                    <!-- 按自底向上排序：数据→AI→后端→前端→运维 -->
+                    <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200 tech-card">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-bold text-green-800">
+                                <span class="lang-en">AI Services (Python + FastAPI)</span>
+                                <span class="lang-ja">AIサービス (Python + FastAPI)</span>
+                            </h3>
+                            <span class="bg-green-200 text-green-800 px-2 py-1 rounded text-sm font-semibold">
+                                <span class="lang-en">Basic</span>
+                                <span class="lang-ja">基本実装</span>
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">LSTM / Isolation Forest / Random Forest endpoints integrated; unit tests passing</span>
+                            <span class="lang-ja">LSTM / Isolation Forest / Random Forest エンドポイント統合済み；ユニットテスト通過</span>
+                        </p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-bold text-green-800">
+                                <span class="lang-en">Backend (Node/Express)</span>
+                                <span class="lang-ja">バックエンド (Node/Express)</span>
+                            </h3>
+                            <span class="bg-green-200 text-green-800 px-2 py-1 rounded text-sm font-semibold">
+                                <span class="lang-en">Basic</span>
+                                <span class="lang-ja">基本実装</span>
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">API gateway, routing, middleware in place; auth & logging basic</span>
+                            <span class="lang-ja">APIゲートウェイ、ルーティング、ミドルウェア配置済み；認証・ログ基本機能</span>
+                        </p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-bold text-green-800">
+                                <span class="lang-en">Frontend (Vue.js)</span>
+                                <span class="lang-ja">フロントエンド (Vue.js)</span>
+                            </h3>
+                            <span class="bg-green-200 text-green-800 px-2 py-1 rounded text-sm font-semibold">
+                                <span class="lang-en">Basic</span>
+                                <span class="lang-ja">基本実装</span>
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Dashboard / Scanner / Label Design components integrated; manual QA done</span>
+                            <span class="lang-ja">ダッシュボード / スキャナー / ラベル設計コンポーネント統合済み；手動QA完了</span>
+                        </p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl border-2 border-gray-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-bold text-gray-800">
+                                <span class="lang-en">Drift Monitoring (PSI/KS)</span>
+                                <span class="lang-ja">ドリフト監視 (PSI/KS)</span>
+                            </h3>
+                            <span class="bg-gray-200 text-gray-800 px-2 py-1 rounded text-sm font-semibold">
+                                <span class="lang-en">Planned</span>
+                                <span class="lang-ja">計画中</span>
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Design phase; prototype planning; trigger specs under review</span>
+                            <span class="lang-ja">設計段階；プロトタイプ計画中；トリガー仕様レビュー中</span>
+                        </p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl border-2 border-gray-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-bold text-gray-800">
+                                <span class="lang-en">Auto-Retraining Pipeline</span>
+                                <span class="lang-ja">自動再学習パイプライン</span>
+                            </h3>
+                            <span class="bg-gray-200 text-gray-800 px-2 py-1 rounded text-sm font-semibold">
+                                <span class="lang-en">Planned</span>
+                                <span class="lang-ja">計画中</span>
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Design approved; shadow job scaffold scheduled (no production impact)</span>
+                            <span class="lang-ja">設計承認済み；シャドウジョブ骨組み予定（本番影響なし）</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：Next Milestones & Risks -->
+            <div class="w-1/2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                    <span class="lang-en">Next Milestones (2 weeks)</span>
+                    <span class="lang-ja">次のマイルストーン (2週間)</span>
+                </h2>
+                <div class="space-y-4 mb-6">
+                    <div class="bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
+                        <h3 class="text-lg font-bold text-blue-800 mb-2">
+                            <span class="lang-en">Monitoring MVP Live</span>
+                            <span class="lang-ja">監視MVP稼働</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">PSI / KS + rolling MAPE dashboard</span>
+                            <span class="lang-ja">PSI / KS + ローリングMAPEダッシュボード</span>
+                        </p>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
+                        <h3 class="text-lg font-bold text-purple-800 mb-2">
+                            <span class="lang-en">Trigger Logic</span>
+                            <span class="lang-ja">トリガーロジック</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Cool-down & audit logging included</span>
+                            <span class="lang-ja">クールダウン & 監査ログを含む</span>
+                        </p>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-xl border-2 border-indigo-200">
+                        <h3 class="text-lg font-bold text-indigo-800 mb-2">
+                            <span class="lang-en">Shadow Retrain Job</span>
+                            <span class="lang-ja">シャドウ再学習ジョブ</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Offline mode; logging only</span>
+                            <span class="lang-ja">オフラインモード；ログのみ</span>
+                        </p>
+                    </div>
+                    <div class="bg-teal-50 p-4 rounded-xl border-2 border-teal-200">
+                        <h3 class="text-lg font-bold text-teal-800 mb-2">
+                            <span class="lang-en">Canary Deploy Playbook</span>
+                            <span class="lang-ja">カナリーデプロイプレイブック</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Rollback strategy / thresholds</span>
+                            <span class="lang-ja">ロールバック戦略 / 閾値</span>
+                        </p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">
+                    <span class="lang-en">Risks & Mitigations</span>
+                    <span class="lang-ja">リスクと対策</span>
+                </h3>
+                <div class="space-y-3">
+                    <div class="bg-red-50 p-3 rounded-lg border border-red-200">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-semibold text-red-800">
+                                <span class="lang-en">Insufficient data</span>
+                                <span class="lang-ja">データ不足</span>
+                            </span>
+                            <span class="lang-en">→ Backtest coverage ≥2 years; synthetic perturbation ≥3 types (seasonal/promotion/supply)</span>
+                            <span class="lang-ja">→ バックテストカバレッジ≥2年；合成摂動≥3種類（季節/プロモーション/供給）</span>
+                        </p>
+                    </div>
+                    <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-semibold text-yellow-800">
+                                <span class="lang-en">Compute cost</span>
+                                <span class="lang-ja">計算コスト</span>
+                            </span>
+                            <span class="lang-en">→ Fine-tune LSTM final layers only; GPU usage <30%</span>
+                            <span class="lang-ja">→ LSTM最終層のみファインチューニング；GPU使用率<30%</span>
+                        </p>
+                    </div>
+                    <div class="bg-orange-50 p-3 rounded-lg border border-orange-200">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-semibold text-orange-800">
+                                <span class="lang-en">False positives / frequent retraining</span>
+                                <span class="lang-ja">偽陽性 / 頻繁な再学習</span>
+                            </span>
+                            <span class="lang-en">→ Cooldown=7d; trigger logs ≥3 statistical evidence (PSI/KS/ΔMAPE)</span>
+                            <span class="lang-ja">→ クールダウン=7日；トリガーログ≥3統計証拠（PSI/KS/ΔMAPE）</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部说明 -->
+        <div class="mt-6 text-center">
+            <div class="bg-gray-100 p-3 rounded-lg border border-gray-300">
+                <p class="text-sm text-gray-600 italic">
+                    <span class="lang-en">This page reflects build status; no performance numbers are shown by design. Performance metrics will be generated per Slide 8 evaluation protocol.</span>
+                    <span class="lang-ja">本ページはビルド状況を反映；設計により性能数値は表示されません。性能指標はスライド8の評価プロトコルに従って生成されます。</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: System Demonstration & Validation Protocol -->
+    <div class="slide" data-slide="8">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+                <span class="lang-en">System Demonstration & Validation Protocol</span>
+                <span class="lang-ja">システムデモンストレーションと検証プロトコル</span>
+            </h1>
+            <p class="text-xl text-gray-600 font-medium">
+                <span class="lang-en">What we will demo; how we will evaluate (before reporting any numbers)</span>
+                <span class="lang-ja">デモ内容と評価方法（数値報告前）</span>
+            </p>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="flex-grow flex items-start space-x-8">
+            <!-- 左侧：Live Demo -->
+            <div class="w-1/2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                    <span class="lang-en">Live Demo</span>
+                    <span class="lang-ja">ライブデモ</span>
+                </h2>
+                <div class="space-y-4">
+                    <div class="bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
+                        <h3 class="text-lg font-bold text-blue-800 mb-2">
+                            <span class="lang-en">1. Label Design</span>
+                            <span class="lang-ja">1. ラベル設計</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Drag-and-drop interface for custom label creation</span>
+                            <span class="lang-ja">カスタムラベル作成のためのドラッグ&ドロップインターフェース</span>
+                        </p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                        <h3 class="text-lg font-bold text-green-800 mb-2">
+                            <span class="lang-en">2. Print & Deploy</span>
+                            <span class="lang-ja">2. 印刷・配備</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Print and label deployment (or video replay)</span>
+                            <span class="lang-ja">印刷とラベル配備（または動画再生）</span>
+                        </p>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
+                        <h3 class="text-lg font-bold text-purple-800 mb-2">
+                            <span class="lang-en">3. Scan & Monitor</span>
+                            <span class="lang-ja">3. スキャン・監視</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">QR code scanning for inventory; dashboard updates</span>
+                            <span class="lang-ja">在庫QRコードスキャン；ダッシュボード更新</span>
+                        </p>
+                    </div>
+                    <div class="bg-orange-50 p-4 rounded-xl border-2 border-orange-200">
+                        <h3 class="text-lg font-bold text-orange-800 mb-2">
+                            <span class="lang-en">4. AI API Call</span>
+                            <span class="lang-ja">4. AI API呼び出し</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Return demand forecasting and anomaly scores</span>
+                            <span class="lang-ja">需要予測と異常スコアの返却</span>
+                        </p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-xl border-2 border-red-200">
+                        <h3 class="text-lg font-bold text-red-800 mb-2">
+                            <span class="lang-en">5. Drift Simulation</span>
+                            <span class="lang-ja">5. ドリフトシミュレーション</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Replay "promotion/seasonal" data; alerts shadow-logged; no user impact</span>
+                            <span class="lang-ja">「プロモーション/季節」データ再生；アラートシャドウログ；ユーザー影響なし</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：Validation Protocol -->
+            <div class="w-1/2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                    <span class="lang-en">Validation Protocol</span>
+                    <span class="lang-ja">検証プロトコル</span>
+                </h2>
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-xl border-2 border-gray-200">
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">
+                            <span class="lang-en">Datasets</span>
+                            <span class="lang-ja">データセット</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Enterprise historical data (train/validation/backtest); synthetic drift segments (seasonal peaks, promotions, supply disruptions)</span>
+                            <span class="lang-ja">企業履歴データ（訓練/検証/バックテスト）；合成ドリフトセグメント（季節ピーク、プロモーション、供給中断）</span>
+                        </p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
+                        <h3 class="text-lg font-bold text-blue-800 mb-2">
+                            <span class="lang-en">Baselines</span>
+                            <span class="lang-ja">ベースライン</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Naïve seasonal avg / ARIMA / Static LSTM (covering non-learning, classical statistical, deep static categories)</span>
+                            <span class="lang-ja">単純季節平均 / ARIMA / 静的LSTM（非学習、古典統計、深度静的カテゴリをカバー）</span>
+                        </p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                        <h3 class="text-lg font-bold text-green-800 mb-2">
+                            <span class="lang-en">Method</span>
+                            <span class="lang-ja">方法</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Rolling-origin walk-forward (SKU×store stratification; temporal integrity without leakage)</span>
+                            <span class="lang-ja">ローリングオリジンウォークフォワード（SKU×店舗層別化；漏洩なしの時間的整合性）</span>
+                        </p>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
+                        <h3 class="text-lg font-bold text-purple-800 mb-2">
+                            <span class="lang-en">Metrics</span>
+                            <span class="lang-ja">指標</span>
+                        </h3>
+                        <div class="space-y-1 text-sm text-gray-700">
+                            <p><span class="lang-en">• Forecast: MAPE / RMSE</span><span class="lang-ja">• 予測：MAPE / RMSE</span></p>
+                            <p><span class="lang-en">• Business: stockout rate / overstock ratio</span><span class="lang-ja">• ビジネス：在庫切れ率 / 過剰在庫率</span></p>
+                            <p><span class="lang-en">• Ops: latency / retrain count</span><span class="lang-ja">• 運用：レイテンシ / 再学習回数</span></p>
+                        </div>
+                    </div>
+                    <div class="bg-orange-50 p-4 rounded-xl border-2 border-orange-200">
+                        <h3 class="text-lg font-bold text-orange-800 mb-2">
+                            <span class="lang-en">Decision Criteria</span>
+                            <span class="lang-ja">判定基準</span>
+                        </h3>
+                        <div class="space-y-2 text-sm text-gray-700">
+                            <p><span class="lang-en">• Forecast: MAPE better than best baseline by ≥10-15% (target)</span><span class="lang-ja">• 予測：MAPEが最良ベースラインより≥10-15%優位（目標）</span></p>
+                            <p><span class="lang-en">• Business: Stockout rate reduction ≥15-20% (target)</span><span class="lang-ja">• ビジネス：在庫切れ率削減≥15-20%（目標）</span></p>
+                            <p><span class="lang-en">• Ops: P50 latency <100ms; retrain ≤N/week; zero abnormal rollbacks</span><span class="lang-ja">• 運用：P50レイテンシ<100ms；再学習≤N/週；異常ロールバックゼロ</span></p>
+                        </div>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-xl border-2 border-indigo-200">
+                        <h3 class="text-lg font-bold text-indigo-800 mb-2">
+                            <span class="lang-en">Governance</span>
+                            <span class="lang-ja">ガバナンス</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Shadow → A/B (canary, auto-rollback gates) → full rollout; full audit trail</span>
+                            <span class="lang-ja">シャドウ → A/B（カナリー、自動ロールバックゲート）→ フル展開；完全監査証跡</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部说明 -->
+        <div class="mt-6 text-center">
+            <div class="bg-gray-100 p-3 rounded-lg border border-gray-300">
+                <p class="text-sm text-gray-600 italic">
+                    <span class="lang-en">This page defines evaluation protocol and pass/fail criteria; no unvalidated numbers are presented.</span>
+                    <span class="lang-ja">本ページは評価プロトコルと合格/不合格基準を定義；未検証の数値は提示されません。</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Research Contributions & Future Work -->
+    <div class="slide" data-slide="9">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+                <span class="lang-en">Research Contributions & Future Work</span>
+                <span class="lang-ja">研究貢献と今後の課題</span>
+            </h1>
+            <p class="text-xl text-gray-600 font-medium">
+                <span class="lang-en">What we built, what we will test next</span>
+                <span class="lang-ja">構築内容と今後のテスト計画</span>
+            </p>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="flex-grow flex items-start space-x-8">
+            <!-- 左侧：Key Contributions -->
+            <div class="w-1/2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                    <span class="lang-en">Key Contributions</span>
+                    <span class="lang-ja">主要な貢献</span>
+                </h2>
+                <div class="space-y-4">
+                    <div class="bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
+                        <h3 class="text-lg font-bold text-blue-800 mb-2">
+                            <span class="lang-en">Methodological</span>
+                            <span class="lang-ja">方法論</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Proposed SME-oriented drift-aware framework (monitor→trigger→lightweight update→deploy), improving robustness under non-stationary data conditions</span>
+                            <span class="lang-ja">中小企業向けドリフト対応フレームワーク（監視→トリガー→軽量更新→配備）を提案、非定常データ条件下での堅牢性向上</span>
+                        </p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                        <h3 class="text-lg font-bold text-green-800 mb-2">
+                            <span class="lang-en">Systems</span>
+                            <span class="lang-ja">システム</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Provided end-to-end observability and reproducible experimental pipeline, supporting audit and replay capabilities</span>
+                            <span class="lang-ja">エンドツーエンド可観測性と再現可能な実験パイプラインを提供、監査と再生機能をサポート</span>
+                        </p>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
+                        <h3 class="text-lg font-bold text-purple-800 mb-2">
+                            <span class="lang-en">Practical</span>
+                            <span class="lang-ja">実用性</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Integration with warehouse workflow (design→print→scan→analyze), reducing deployment friction and enabling reproducible trials</span>
+                            <span class="lang-ja">倉庫ワークフロー（設計→印刷→スキャン→分析）との統合、配備摩擦の削減と再現可能な試行を実現</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：Future Work -->
+            <div class="w-1/2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                    <span class="lang-en">Future Work</span>
+                    <span class="lang-ja">今後の課題</span>
+                </h2>
+                <div class="space-y-4">
+                    <div class="bg-orange-50 p-4 rounded-xl border-2 border-orange-200">
+                        <h3 class="text-lg font-bold text-orange-800 mb-2">
+                            <span class="lang-en">Adaptive Policies</span>
+                            <span class="lang-ja">適応ポリシー</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">When is active retraining superior to passive fine-tuning? Provide threshold/cost models with ablation experiments</span>
+                            <span class="lang-ja">能動的再学習はいつ受動的ファインチューニングより優位か？閾値/コストモデルとアブレーション実験を提供</span>
+                        </p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-xl border-2 border-red-200">
+                        <h3 class="text-lg font-bold text-red-800 mb-2">
+                            <span class="lang-en">Divergence Choices</span>
+                            <span class="lang-ja">発散選択</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Efficacy and stability comparison of KS/PSI/JSD/Wasserstein under different sample sizes/feature distributions</span>
+                            <span class="lang-ja">異なるサンプルサイズ/特徴分布下でのKS/PSI/JSD/Wassersteinの有効性と安定性比較</span>
+                        </p>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-xl border-2 border-indigo-200">
+                        <h3 class="text-lg font-bold text-indigo-800 mb-2">
+                            <span class="lang-en">Model Variants</span>
+                            <span class="lang-ja">モデル変種</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Transfer DA-LSTM strategy to RF/GBDT/Transformer; report stability and cost curves</span>
+                            <span class="lang-ja">DA-LSTM戦略をRF/GBDT/Transformerに転移；安定性とコスト曲線を報告</span>
+                        </p>
+                    </div>
+                    <div class="bg-teal-50 p-4 rounded-xl border-2 border-teal-200">
+                        <h3 class="text-lg font-bold text-teal-800 mb-2">
+                            <span class="lang-en">Privacy & Scale</span>
+                            <span class="lang-ja">プライバシー & スケール</span>
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            <span class="lang-en">Multi-tenant/multi-warehouse federated learning; cross-industry drift pattern classification and transferability assessment</span>
+                            <span class="lang-ja">マルチテナント/マルチ倉庫連合学習；業界横断ドリフトパターン分類と転移可能性評価</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部：Closing -->
+        <div class="mt-8 text-center">
+            <div class="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-xl border border-gray-200">
+                <p class="text-base font-semibold text-gray-800">
+                    <span class="lang-en">We intentionally report no performance numbers today. The evaluation protocol is fixed; results will follow after backtests and shadow/A/B runs. Results will be reported following pre-registered protocol in Slide 8.</span>
+                    <span class="lang-ja">今日は意図的に性能数値を報告しません。評価プロトコルは確定済み；バックテストとシャドウ/A/B実行後に結果が続きます。結果はスライド8の事前登録プロトコルに従って報告されます。</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Thank You -->
+    <div class="slide justify-center items-center text-center bg-gradient-to-br from-blue-900 via-red-900 to-purple-900 text-white" data-slide="10">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-6xl font-bold mb-8">
+                <span class="lang-en">Thank You</span>
+                <span class="lang-ja">ありがとうございました</span>
+            </h1>
+            <div class="text-2xl mb-8 text-blue-100">
+                <span class="lang-en">Questions & Discussion</span>
+                <span class="lang-ja">ご質問とディスカッション</span>
+            </div>
+            <div class="space-y-4 text-xl text-gray-200">
+                <p>
+                    <span class="lang-en">Research Contributions & Future Work</span>
+                    <span class="lang-ja">研究貢献と今後の課題</span>
+                </p>
+                <p class="text-lg text-gray-300">
+                    <span class="lang-en">SME-Oriented Drift-Aware AI Framework</span>
+                    <span class="lang-ja">中小企業向けドリフト対応AIフレームワーク</span>
+                </p>
+                <div class="mt-12 pt-8 border-t border-gray-600">
+                    <p class="text-lg text-gray-300">
+                        <span class="lang-en">Contact: cli@iplab.cs.tsukuba.ac.jp </span>
+                        <span class="lang-ja">連絡先：cli@iplab.cs.tsukuba.ac.jp </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="mt-6 flex justify-center items-center space-x-4 w-full max-w-6xl">
+     <div class="flex-1 flex justify-start">
+        <div class="lang-switcher text-sm space-x-2">
+            <button data-lang="en" class="active">EN</button>
+            <button data-lang="ja">日</button>
+        </div>
+    </div>
+    <button id="prevBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+      ←
+    </button>
+    <span id="slide-counter" class="text-gray-700 font-semibold text-lg">1 / 10</span>
+    <button id="nextBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+      →
+    </button>
+     <div class="flex-1"></div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const counter = document.getElementById('slide-counter');
+    const langButtons = document.querySelectorAll('.lang-switcher button');
+    const body = document.body;
+    let currentSlideIndex = 0;
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[index].classList.add('active');
+        counter.textContent = `${index + 1} / ${totalSlides}`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === totalSlides - 1;
+
+        // Animate progress bars on slide 7
+        if (slides[index].dataset.slide === '7') {
+            setTimeout(() => {
+                document.getElementById('progress-ai').style.width = '95%';
+                document.getElementById('progress-frontend').style.width = '90%';
+                document.getElementById('progress-server').style.width = '80%';
+                document.getElementById('progress-total').style.width = '85%';
+            }, 300);
+        } else {
+             // Reset progress bars if not on slide 7
+             const ai = document.getElementById('progress-ai');
+             if (ai) {
+                ai.style.width = '0%';
+                document.getElementById('progress-frontend').style.width = '0%';
+                document.getElementById('progress-server').style.width = '0%';
+                document.getElementById('progress-total').style.width = '0%';
+             }
+        }
+    }
+    
+    function switchLanguage(lang) {
+        body.setAttribute('lang', lang);
+        
+        document.querySelectorAll('.lang-zh, .lang-en, .lang-ja').forEach(el => el.style.display = 'none');
+        document.querySelectorAll(`.lang-${lang}`).forEach(el => el.style.display = 'inline');
+
+        langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        showSlide(currentSlideIndex);
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentSlideIndex < totalSlides - 1) {
+        currentSlideIndex++;
+        showSlide(currentSlideIndex);
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') prevBtn.click();
+      if (e.key === 'ArrowRight') nextBtn.click();
+    });
+    
+    langButtons.forEach(button => {
+        button.addEventListener('click', (e) => switchLanguage(e.target.dataset.lang));
+    });
+
+    showSlide(currentSlideIndex);
+    switchLanguage('en'); // Initial language
+  </script>
+
+</body>
+</html>
+
+
