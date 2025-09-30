@@ -675,7 +675,6 @@
                             <h3 class="text-lg font-bold text-purple-900">
                                 <span class="lang-en">Data Drift Handling</span>
                                 <span class="lang-ja">データドリフト処理</span>
-                                <span class="bg-purple-200 text-purple-800 px-2 py-1 rounded-full text-xs ml-2">核心亮点</span>
                             </h3>
                         </div>
                         <p class="text-gray-700 text-sm">
@@ -813,9 +812,9 @@
                         <span class="lang-ja">課題</span>
                     </h3>
                     <div class="space-y-3 text-gray-700">
-                        <p class="text-base"><span class="lang-en"><strong>Seasonal spikes:</strong> 11.11, Black Friday → Severe demand underestimation</span><span class="lang-ja"><strong>季節急増:</strong> 双十一、ブラックフライデー → 需要の深刻な過小評価</span></p>
-                        <p class="text-base"><span class="lang-en"><strong>Market shocks:</strong> Supply chain disruptions → Obsolete training data</span><span class="lang-ja"><strong>市場ショック:</strong> サプライチェーン混乱 → 学習データの陳腐化</span></p>
-                        <p class="text-base"><span class="lang-en"><strong>SME burden:</strong> Manual retraining → High operational costs</span><span class="lang-ja"><strong>中小企業負担:</strong> 手動再学習 → 高い運営コスト</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>Seasonal spikes:</strong> (11.11, Black Friday) → demand underestimation</span><span class="lang-ja"><strong>季節急増:</strong> (双十一、ブラックフライデー) → 需要過小評価</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>Market shocks:</strong> (supply disruption, lead time shift) → obsolete training data</span><span class="lang-ja"><strong>市場ショック:</strong> (供給中断、リードタイム変化) → 学習データの陳腐化</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>SME burden:</strong> Manual retraining → high operational cost</span><span class="lang-ja"><strong>中小企業負担:</strong> 手動再学習 → 高い運営コスト</span></p>
                     </div>
                 </div>
 
@@ -827,10 +826,10 @@
                         <span class="lang-ja">実例</span>
                     </h3>
                     <div class="text-gray-700 text-sm space-y-2">
-                        <p><span class="lang-en"><strong>COVID-19 Impact:</strong> Pre-pandemic models failed to predict consumer behavior shifts, leading to widespread supply-demand mismatches.</span></p>
-                        <p><span class="lang-en"><strong>SME Case:</strong> Malaysian beverage distributor during Spring Festival → Model drift caused 150% underestimation, resulting in severe stockouts across distribution network.</span></p>
-                        <p><span class="lang-ja"><strong>コロナ禍の影響:</strong> パンデミック前モデルは消費者行動変化を予測できず、需給不均衡が広範囲に発生。</span></p>
-                        <p><span class="lang-ja"><strong>中小企業事例:</strong> 春節時のマレーシア飲料卸売業者 → モデルドリフトにより150%過小評価、流通網全体で深刻な在庫切れ。</span></p>
+                        <p><span class="lang-en"><strong>COVID-19:</strong> Pre-pandemic models failed to capture behavior shifts → supply–demand mismatches.</span></p>
+                        <p><span class="lang-en"><strong>SME distributor (observed/simulated backtest):</strong> Spring Festival surge → model 150% underestimation → network-wide stockouts.</span></p>
+                        <p><span class="lang-ja"><strong>コロナ禍:</strong> パンデミック前モデルは行動変化を捉えられず → 需給不均衡。</span></p>
+                        <p><span class="lang-ja"><strong>中小企業卸売業者（観察/シミュレーション後検証）:</strong> 春節急増 → モデル150%過小評価 → 流通網全体在庫切れ。</span></p>
                     </div>
                 </div>
             </div>
@@ -850,10 +849,10 @@
                         <span class="lang-ja">解決策</span>
                     </h3>
                     <div class="space-y-3 text-gray-700">
-                        <p class="text-base"><span class="lang-en"><strong>Smart monitoring:</strong> KS-test detects distribution changes (robust for SME data sizes)</span><span class="lang-ja"><strong>スマート監視:</strong> KS検定で分布変化を検出（中小企業データサイズに堅牢）</span></p>
-                        <p class="text-base"><span class="lang-en"><strong>Auto-trigger:</strong> Retraining if prediction error >15% for 3 consecutive cycles</span><span class="lang-ja"><strong>自動トリガー:</strong> 3サイクル連続で予測誤差>15%時に再学習</span></p>
-                        <p class="text-base"><span class="lang-en"><strong>Lightweight updates:</strong> Fine-tune only LSTM final layers + rolling deployment</span><span class="lang-ja"><strong>軽量更新:</strong> LSTM最終層のみ微調整 + ローリング展開</span></p>
-                        <p class="text-base"><span class="lang-en"><strong>System benefit:</strong> Sustains accuracy with minimal SME operational burden</span><span class="lang-ja"><strong>システム利点:</strong> 最小限の運営負担で精度を維持</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>Smart monitoring:</strong> KS-test–based distribution change + rolling error (robust for SME-sized samples) (maps to seasonal & shocks)</span><span class="lang-ja"><strong>スマート監視:</strong> KS検定ベース分布変化 + ローリング誤差（中小企業サイズサンプルに堅牢）（季節・ショック対応）</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>Auto trigger:</strong> Retrain when sustained error elevation across consecutive cycles (e.g., 3) (maps to seasonal)</span><span class="lang-ja"><strong>自動トリガー:</strong> 連続サイクルで持続的誤差上昇時再学習（例：3回）（季節対応）</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>Lightweight updates:</strong> Fine-tune only LSTM final layers; rolling updates with safety gates (maps to SME burden)</span><span class="lang-ja"><strong>軽量更新:</strong> LSTM最終層のみ微調整；安全ゲート付きローリング更新（中小企業負担対応）</span></p>
+                        <p class="text-base"><span class="lang-en"><strong>System benefit:</strong> Sustains accuracy with minimal operational overhead</span><span class="lang-ja"><strong>システム利点:</strong> 最小限の運用オーバーヘッドで精度を維持</span></p>
                     </div>
                 </div>
             </div>
@@ -875,8 +874,8 @@
                         <span class="lang-ja">監視</span>
                     </h4>
                     <p class="text-sm text-gray-600">
-                        <span class="lang-en">Continuous monitoring</span>
-                        <span class="lang-ja">継続的監視</span>
+                        <span class="lang-en">Continuous distribution & error tracking</span>
+                        <span class="lang-ja">継続的分布・誤差追跡</span>
                     </p>
                 </div>
                 <div class="text-center">
@@ -888,8 +887,8 @@
                         <span class="lang-ja">検出</span>
                     </h4>
                     <p class="text-sm text-gray-600">
-                        <span class="lang-en">Early drift detection</span>
-                        <span class="lang-ja">早期ドリフト検出</span>
+                        <span class="lang-en">Statistical drift tests + residual shift</span>
+                        <span class="lang-ja">統計的ドリフト検定 + 残差シフト</span>
                     </p>
                 </div>
                 <div class="text-center">
@@ -901,8 +900,8 @@
                         <span class="lang-ja">適応</span>
                     </h4>
                     <p class="text-sm text-gray-600">
-                        <span class="lang-en">Efficient retraining</span>
-                        <span class="lang-ja">効率的再学習</span>
+                        <span class="lang-en">Incremental fine-tuning / window retraining</span>
+                        <span class="lang-ja">増分微調整 / ウィンドウ再学習</span>
                     </p>
                 </div>
                 <div class="text-center">
@@ -914,8 +913,8 @@
                         <span class="lang-ja">展開</span>
                     </h4>
                     <p class="text-sm text-gray-600">
-                        <span class="lang-en">Seamless deployment</span>
-                        <span class="lang-ja">シームレス展開</span>
+                        <span class="lang-en">Shadow → canary → full rollout (auto-rollback)</span>
+                        <span class="lang-ja">シャドウ → カナリー → フル展開（自動ロールバック）</span>
                     </p>
                 </div>
             </div>
@@ -929,10 +928,6 @@
                 <span class="lang-en">Implementation Status & Technical Milestones</span>
                 <span class="lang-ja">実装状況と技術マイルストーン</span>
             </h1>
-            <p class="text-xl text-gray-600 font-medium">
-                <span class="lang-en">Current build status and near-term milestones (no performance claims yet)</span>
-                <span class="lang-ja">現在のビルド状況と近期的マイルストーン（性能主張は含まず）</span>
-            </p>
         </div>
 
         <!-- 主要内容区域 -->
@@ -952,13 +947,13 @@
                                 <span class="lang-ja">AIサービス (Python + FastAPI)</span>
                             </h3>
                             <span class="bg-green-200 text-green-800 px-2 py-1 rounded text-sm font-semibold">
-                                <span class="lang-en">Basic</span>
-                                <span class="lang-ja">基本実装</span>
+                                <span class="lang-en">Implemented</span>
+                                <span class="lang-ja">実装済み</span>
                             </span>
                         </div>
                         <p class="text-sm text-gray-700">
-                            <span class="lang-en">LSTM / Isolation Forest / Random Forest endpoints integrated; unit tests passing</span>
-                            <span class="lang-ja">LSTM / Isolation Forest / Random Forest エンドポイント統合済み；ユニットテスト通過</span>
+                            <span class="lang-en">Endpoints (LSTM/IF/RF) live; unit tests ≥90% pass; OpenAPI exposed</span>
+                            <span class="lang-ja">エンドポイント（LSTM/IF/RF）稼働中；ユニットテスト≥90%通過；OpenAPI公開</span>
                         </p>
                     </div>
                     <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200">
@@ -968,13 +963,13 @@
                                 <span class="lang-ja">バックエンド (Node/Express)</span>
                             </h3>
                             <span class="bg-green-200 text-green-800 px-2 py-1 rounded text-sm font-semibold">
-                                <span class="lang-en">Basic</span>
-                                <span class="lang-ja">基本実装</span>
+                                <span class="lang-en">Implemented</span>
+                                <span class="lang-ja">実装済み</span>
                             </span>
                         </div>
                         <p class="text-sm text-gray-700">
-                            <span class="lang-en">API gateway, routing, middleware in place; auth & logging basic</span>
-                            <span class="lang-ja">APIゲートウェイ、ルーティング、ミドルウェア配置済み；認証・ログ基本機能</span>
+                            <span class="lang-en">API gateway/routing/middleware; auth+logging on</span>
+                            <span class="lang-ja">APIゲートウェイ/ルーティング/ミドルウェア；認証+ログ稼働中</span>
                         </p>
                     </div>
                     <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200">
@@ -984,29 +979,29 @@
                                 <span class="lang-ja">フロントエンド (Vue.js)</span>
                             </h3>
                             <span class="bg-green-200 text-green-800 px-2 py-1 rounded text-sm font-semibold">
-                                <span class="lang-en">Basic</span>
-                                <span class="lang-ja">基本実装</span>
+                                <span class="lang-en">Implemented</span>
+                                <span class="lang-ja">実装済み</span>
                             </span>
                         </div>
                         <p class="text-sm text-gray-700">
-                            <span class="lang-en">Dashboard / Scanner / Label Design components integrated; manual QA done</span>
-                            <span class="lang-ja">ダッシュボード / スキャナー / ラベル設計コンポーネント統合済み；手動QA完了</span>
+                            <span class="lang-en">Dashboard/Scanner/Label Design integrated</span>
+                            <span class="lang-ja">ダッシュボード/スキャナー/ラベル設計統合済み</span>
                         </p>
                     </div>
-                    <div class="bg-gray-50 p-4 rounded-xl border-2 border-gray-200">
+                    <div class="bg-yellow-50 p-4 rounded-xl border-2 border-yellow-200">
                         <div class="flex items-center justify-between mb-2">
-                            <h3 class="text-lg font-bold text-gray-800">
+                            <h3 class="text-lg font-bold text-yellow-800">
                                 <span class="lang-en">Drift Monitoring (PSI/KS)</span>
                                 <span class="lang-ja">ドリフト監視 (PSI/KS)</span>
                             </h3>
-                            <span class="bg-gray-200 text-gray-800 px-2 py-1 rounded text-sm font-semibold">
-                                <span class="lang-en">Planned</span>
-                                <span class="lang-ja">計画中</span>
+                            <span class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-sm font-semibold">
+                                <span class="lang-en">In Progress</span>
+                                <span class="lang-ja">進行中</span>
                             </span>
                         </div>
                         <p class="text-sm text-gray-700">
-                            <span class="lang-en">Design phase; prototype planning; trigger specs under review</span>
-                            <span class="lang-ja">設計段階；プロトタイプ計画中；トリガー仕様レビュー中</span>
+                            <span class="lang-en">Prototype wired; trigger spec under review</span>
+                            <span class="lang-ja">プロトタイプ接続済み；トリガー仕様レビュー中</span>
                         </p>
                     </div>
                     <div class="bg-gray-50 p-4 rounded-xl border-2 border-gray-200">
@@ -1021,8 +1016,8 @@
                             </span>
                         </div>
                         <p class="text-sm text-gray-700">
-                            <span class="lang-en">Design approved; shadow job scaffold scheduled (no production impact)</span>
-                            <span class="lang-ja">設計承認済み；シャドウジョブ骨組み予定（本番影響なし）</span>
+                            <span class="lang-en">Design approved; shadow job scaffold scheduled</span>
+                            <span class="lang-ja">設計承認済み；シャドウジョブ骨組み予定</span>
                         </p>
                     </div>
                 </div>
@@ -1031,48 +1026,48 @@
             <!-- 右侧：Next Milestones & Risks -->
             <div class="w-1/2">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-                    <span class="lang-en">Next Milestones (2 weeks)</span>
-                    <span class="lang-ja">次のマイルストーン (2週間)</span>
+                    <span class="lang-en">Next Milestones (1 month)</span>
+                    <span class="lang-ja">次のマイルストーン (1ヶ月)</span>
                 </h2>
                 <div class="space-y-4 mb-6">
                     <div class="bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
                         <h3 class="text-lg font-bold text-blue-800 mb-2">
-                            <span class="lang-en">Monitoring MVP Live</span>
-                            <span class="lang-ja">監視MVP稼働</span>
+                            <span class="lang-en">Monitoring MVP Live — due: 2025-10-30</span>
+                            <span class="lang-ja">監視MVP稼働 — 期限: 2025-10-30</span>
                         </h3>
                         <p class="text-sm text-gray-700">
-                            <span class="lang-en">PSI / KS + rolling MAPE dashboard</span>
-                            <span class="lang-ja">PSI / KS + ローリングMAPEダッシュボード</span>
+                            <span class="lang-en">PSI / KS + rolling MAPE dashboard; daily job + alert log table</span>
+                            <span class="lang-ja">PSI / KS + ローリングMAPEダッシュボード；日次ジョブ + アラートログテーブル</span>
                         </p>
                     </div>
                     <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
                         <h3 class="text-lg font-bold text-purple-800 mb-2">
-                            <span class="lang-en">Trigger Logic</span>
-                            <span class="lang-ja">トリガーロジック</span>
+                            <span class="lang-en">Trigger Logic — due: 2025-10-30</span>
+                            <span class="lang-ja">トリガーロジック — 期限: 2025-10-30</span>
                         </h3>
                         <p class="text-sm text-gray-700">
-                            <span class="lang-en">Cool-down & audit logging included</span>
-                            <span class="lang-ja">クールダウン & 監査ログを含む</span>
+                            <span class="lang-en">Cooldown=7d; trigger requires ≥3 statistical evidences (PSI/KS/ΔMAPE); audit log</span>
+                            <span class="lang-ja">クールダウン=7日；トリガーには≥3統計証拠（PSI/KS/ΔMAPE）必要；監査ログ</span>
                         </p>
                     </div>
                     <div class="bg-indigo-50 p-4 rounded-xl border-2 border-indigo-200">
                         <h3 class="text-lg font-bold text-indigo-800 mb-2">
-                            <span class="lang-en">Shadow Retrain Job</span>
-                            <span class="lang-ja">シャドウ再学習ジョブ</span>
+                            <span class="lang-en">Shadow Retrain Job — due: 2025-10-30</span>
+                            <span class="lang-ja">シャドウ再学習ジョブ — 期限: 2025-10-30</span>
                         </h3>
                         <p class="text-sm text-gray-700">
-                            <span class="lang-en">Offline mode; logging only</span>
-                            <span class="lang-ja">オフラインモード；ログのみ</span>
+                            <span class="lang-en">Offline run on ≥50 SKUs; versioned artifacts; no prod impact</span>
+                            <span class="lang-ja">≥50 SKUでオフライン実行；バージョン管理アーティファクト；本番影響なし</span>
                         </p>
                     </div>
                     <div class="bg-teal-50 p-4 rounded-xl border-2 border-teal-200">
                         <h3 class="text-lg font-bold text-teal-800 mb-2">
-                            <span class="lang-en">Canary Deploy Playbook</span>
-                            <span class="lang-ja">カナリーデプロイプレイブック</span>
+                            <span class="lang-en">Canary Deploy Playbook — due: 2025-10-30</span>
+                            <span class="lang-ja">カナリーデプロイプレイブック — 期限: 2025-10-30</span>
                         </h3>
                         <p class="text-sm text-gray-700">
-                            <span class="lang-en">Rollback strategy / thresholds</span>
-                            <span class="lang-ja">ロールバック戦略 / 閾値</span>
+                            <span class="lang-en">Rollback gates: MAPE △≤+10%, p95 latency <100ms, error rate ≤0.5%</span>
+                            <span class="lang-ja">ロールバックゲート：MAPE △≤+10%、p95レイテンシ<100ms、エラー率≤0.5%</span>
                         </p>
                     </div>
                 </div>
@@ -1085,46 +1080,55 @@
                     <div class="bg-red-50 p-3 rounded-lg border border-red-200">
                         <p class="text-sm text-gray-700">
                             <span class="font-semibold text-red-800">
-                                <span class="lang-en">Insufficient data</span>
-                                <span class="lang-ja">データ不足</span>
+                                <span class="lang-en">Insufficient data — Owner: AI</span>
+                                <span class="lang-ja">データ不足 — 責任者: AI</span>
                             </span>
-                            <span class="lang-en">→ Backtest coverage ≥2 years; synthetic perturbation ≥3 types (seasonal/promotion/supply)</span>
-                            <span class="lang-ja">→ バックテストカバレッジ≥2年；合成摂動≥3種類（季節/プロモーション/供給）</span>
+                        </p>
+                        <p class="text-xs text-gray-600 mt-1">
+                            <span class="lang-en">Signal: backtest coverage <2 years or category samples <N</span>
+                            <span class="lang-ja">信号: バックテストカバレッジ<2年またはカテゴリサンプル<N</span>
+                        </p>
+                        <p class="text-xs text-gray-600">
+                            <span class="lang-en">Action: historical replay + 3 synthetic perturbations (seasonal/promotion/supply)</span>
+                            <span class="lang-ja">アクション: 履歴再生 + 3種類合成摂動（季節/プロモーション/供給）</span>
                         </p>
                     </div>
                     <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
                         <p class="text-sm text-gray-700">
                             <span class="font-semibold text-yellow-800">
-                                <span class="lang-en">Compute cost</span>
-                                <span class="lang-ja">計算コスト</span>
+                                <span class="lang-en">Compute cost — Owner: Platform</span>
+                                <span class="lang-ja">計算コスト — 責任者: Platform</span>
                             </span>
-                            <span class="lang-en">→ Fine-tune LSTM final layers only; GPU usage <30%</span>
-                            <span class="lang-ja">→ LSTM最終層のみファインチューニング；GPU使用率<30%</span>
+                        </p>
+                        <p class="text-xs text-gray-600 mt-1">
+                            <span class="lang-en">Signal: GPU usage >30% or retraining >N/week</span>
+                            <span class="lang-ja">信号: GPU使用率>30%または再学習>N/週</span>
+                        </p>
+                        <p class="text-xs text-gray-600">
+                            <span class="lang-en">Action: fine-tune LSTM final layers only; night scheduling; budget gates</span>
+                            <span class="lang-ja">アクション: LSTM最終層のみファインチューニング；夜間スケジューリング；予算ゲート</span>
                         </p>
                     </div>
                     <div class="bg-orange-50 p-3 rounded-lg border border-orange-200">
                         <p class="text-sm text-gray-700">
                             <span class="font-semibold text-orange-800">
-                                <span class="lang-en">False positives / frequent retraining</span>
-                                <span class="lang-ja">偽陽性 / 頻繁な再学習</span>
+                                <span class="lang-en">False positives / frequent retraining — Owner: MLOps</span>
+                                <span class="lang-ja">偽陽性 / 頻繁な再学習 — 責任者: MLOps</span>
                             </span>
-                            <span class="lang-en">→ Cooldown=7d; trigger logs ≥3 statistical evidence (PSI/KS/ΔMAPE)</span>
-                            <span class="lang-ja">→ クールダウン=7日；トリガーログ≥3統計証拠（PSI/KS/ΔMAPE）</span>
+                        </p>
+                        <p class="text-xs text-gray-600 mt-1">
+                            <span class="lang-en">Signal: >N triggers in 2 consecutive weeks</span>
+                            <span class="lang-ja">信号: 連続2週間で>N回トリガー</span>
+                        </p>
+                        <p class="text-xs text-gray-600">
+                            <span class="lang-en">Action: cooldown=7d; requires ≥3 evidences; human review whitelist</span>
+                            <span class="lang-ja">アクション: クールダウン=7日；≥3証拠必要；人間レビューホワイトリスト</span>
                         </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 底部说明 -->
-        <div class="mt-6 text-center">
-            <div class="bg-gray-100 p-3 rounded-lg border border-gray-300">
-                <p class="text-sm text-gray-600 italic">
-                    <span class="lang-en">This page reflects build status; no performance numbers are shown by design. Performance metrics will be generated per Slide 8 evaluation protocol.</span>
-                    <span class="lang-ja">本ページはビルド状況を反映；設計により性能数値は表示されません。性能指標はスライド8の評価プロトコルに従って生成されます。</span>
-                </p>
-            </div>
-        </div>
     </div>
 
     <!-- Slide 8: System Demonstration & Validation Protocol -->
@@ -1134,10 +1138,6 @@
                 <span class="lang-en">System Demonstration & Validation Protocol</span>
                 <span class="lang-ja">システムデモンストレーションと検証プロトコル</span>
             </h1>
-            <p class="text-xl text-gray-600 font-medium">
-                <span class="lang-en">What we will demo; how we will evaluate (before reporting any numbers)</span>
-                <span class="lang-ja">デモ内容と評価方法（数値報告前）</span>
-            </p>
         </div>
 
         <!-- 主要内容区域 -->
@@ -1275,15 +1275,6 @@
             </div>
         </div>
 
-        <!-- 底部说明 -->
-        <div class="mt-6 text-center">
-            <div class="bg-gray-100 p-3 rounded-lg border border-gray-300">
-                <p class="text-sm text-gray-600 italic">
-                    <span class="lang-en">This page defines evaluation protocol and pass/fail criteria; no unvalidated numbers are presented.</span>
-                    <span class="lang-ja">本ページは評価プロトコルと合格/不合格基準を定義；未検証の数値は提示されません。</span>
-                </p>
-            </div>
-        </div>
     </div>
 
     <!-- Slide 9: Research Contributions & Future Work -->
@@ -1392,15 +1383,6 @@
             </div>
         </div>
 
-        <!-- 底部：Closing -->
-        <div class="mt-8 text-center">
-            <div class="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-xl border border-gray-200">
-                <p class="text-base font-semibold text-gray-800">
-                    <span class="lang-en">We intentionally report no performance numbers today. The evaluation protocol is fixed; results will follow after backtests and shadow/A/B runs. Results will be reported following pre-registered protocol in Slide 8.</span>
-                    <span class="lang-ja">今日は意図的に性能数値を報告しません。評価プロトコルは確定済み；バックテストとシャドウ/A/B実行後に結果が続きます。結果はスライド8の事前登録プロトコルに従って報告されます。</span>
-                </p>
-            </div>
-        </div>
     </div>
 
     <!-- Slide 10: Thank You -->
@@ -1527,5 +1509,7 @@
 
 </body>
 </html>
+
+
 
 
